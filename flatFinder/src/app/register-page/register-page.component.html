@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>FlatFinder</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body>
+    <form (ngSubmit)="onSubmit()">
+
+        <!-- First Name -->
+        <div>
+            <label>First Name</label>
+            <input type="text" formControlName="firstName" placeholder="Enter first name">
+            <div *ngIf="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.invalid">
+                First name is required
+            </div>
+        </div>
+
+        <!-- Last Name -->
+        <div>
+            <label>Last Name</label>
+            <input type="text" formControlName="lastName" placeholder="Enter last name">
+            <div *ngIf="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.invalid">
+                Last name is required
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div>
+            <label>Email</label>
+            <input type="email" formControlName="email" placeholder="Enter email">
+            <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+                Valid email is required
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+            <label>Password</label>
+            <input type="password" formControlName="password" placeholder="Enter password">
+            <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
+                Password must contain:
+                -At least 6 characters
+                -Letters
+                -Numbers
+                -A character that is neither a letter nor a number.
+            </div>
+        </div>
+
+        <!-- Birth Date -->
+        <div>
+            <label>Birth Date</label>
+            <input type="date" formControlName="birthDate">
+            <div *ngIf="registerForm.get('birthDate')?.touched && registerForm.get('birthDate')?.invalid">
+                Birth date is required
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" [disabled]="registerForm.invalid">
+            Register
+        </button>
+
+    </form>
+</body>
+
+</html>

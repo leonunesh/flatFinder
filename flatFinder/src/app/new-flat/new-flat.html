@@ -1,1 +1,38 @@
-<p>new-flat works!</p>
+<!DOCTYPE html>
+<hmtl>
+
+    <head>
+        <link rel="stylesheet" href="new-flat.css">
+    </head>
+
+    <body>
+        <h1>New Flat</h1>
+        <form [formGroup]="flatForm" (ngSubmit)="submitForm()">
+            <label for="name">Name:</label>
+            <input type="text" formControlName="flatName"><br>
+
+            <label for="address">Address:</label>
+            <input type="text" formControlName="flatAddress"><br>
+
+            <label for="city">City:</label>
+            <input type="text" formControlName="flatCity"><br>
+
+            <label for="rent">Rent:</label>
+            <input type="number" formControlName="flatRent"><br>
+
+            <label for="area-size">Area Size:</label>
+            <input type="number" formControlName="areaSize"><br>
+
+            <label for="hasAC">Has AC:</label>
+            <input type="checkbox" formControlName="hasAC"><br>
+
+            <label for="yearBuilt">Year Built:</label>
+            <input type="number" formControlName="yearBuilt"><br>
+
+            <label for="dateAvailable">Date Available:</label>
+            <input type="date" formControlName="dateAvailable"><br>
+
+            <button type="submit">Add Flat</button>
+        </form>
+    </body>
+</hmtl>

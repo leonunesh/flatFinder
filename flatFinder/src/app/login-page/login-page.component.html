@@ -1,1 +1,45 @@
-<p>login-page works!</p>
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Login Page</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+  <!-- Email -->
+  <div>
+    <label>Email</label>
+    <input type="email" formControlName="email" placeholder="Enter email">
+    
+    <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+      Valid email is required
+    </div>
+  </div>
+
+  <!-- Password -->
+  <div>
+    <label>Password</label>
+    <input type="password" formControlName="password" placeholder="Enter password">
+    
+    <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+      Password is required
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Button -->
+  <button type="submit" [disabled]="loading">
+    {{ loading ? 'Logging in...' : 'Login' }}
+  </button>
+
+</form>
+</body>
+</html>

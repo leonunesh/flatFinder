@@ -1,24 +1,16 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="flat-view.css">
-    </head>
-    <body>
-        <h2>My flat's details</h2>
-        <div class="flat-details">
-            <p><strong>Name:</strong> {{ flat?.name }}</p>
-            <p><strong>Address:</strong> {{ flat?.address }}</p>
-            <p><strong>City:</strong> {{ flat?.city }}</p>
-            <p><strong>Rent:</strong> {{ flat?.rent }}</p>
-            <p><strong>Area Size:</strong> {{ flat?.areaSize }} sqm</p>
-            <p><strong>Has AC:</strong> {{ flat?.hasAC ? 'Yes' : 'No' }}</p>
-            <p><strong>Year Built:</strong> {{ flat?.yearBuilt }}</p>
-            <p><strong>Date Available:</strong> {{ flat?.dateAvailable | date }}</p>
-        </div>
-        <h2>Edit my flat</h2>
+<div class="flat-container">
+  <h2>My flat's details</h2>
+  <div class="flat-details" *ngIf="flat">
+    <p><strong>Name:</strong> {{ flat.name }}</p>
+    <p><strong>Address:</strong> {{ flat.address }}</p>
+    <p><strong>City:</strong> {{ flat.city }}</p>
+    <p><strong>Rent:</strong> {{ flat.rent }}</p>
+    <p><strong>Area Size:</strong> {{ flat.areaSize }} sqm</p>
+    <p><strong>Has AC:</strong> {{ flat.hasAC ? 'Yes' : 'No' }}</p>
+    <p><strong>Year Built:</strong> {{ flat.yearBuilt }}</p>
+    <p><strong>Date Available:</strong> {{ flat.dateAvailable | date }}</p>
+  </div>
 
-
-
-        
-    </body>
-</html>
+  <h2>Edit my flat</h2>
+  <!-- Edit form will go here -->
+</div>

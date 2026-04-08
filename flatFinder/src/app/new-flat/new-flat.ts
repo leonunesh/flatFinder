@@ -3,10 +3,9 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 
 @Component({
   selector: 'app-new-flat',
-  standalone: true,
   imports: [ReactiveFormsModule],
-  templateUrl: './new-flat.component.html',
-  styleUrls: ['./new-flat.component.css']
+  templateUrl: './new-flat.html',
+  styleUrl: './new-flat.css'
 })
 export class NewFlatComponent {
 

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 
 // Auth
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 // Firestore
 import { getFirestore, doc, setDoc, getDoc, collection, getDocs } from 'firebase/firestore';

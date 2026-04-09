@@ -1,1 +1,57 @@
-<p>flat-edit works!</p>
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h1>Edit your flat here!</h1>
+    <!-- Formulário de edição -->
+    <div class="flat-edit" *ngIf="flat && editMode">
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <label>
+                Name
+                <input formControlName="name" />
+            </label>
+
+            <label>
+                Address
+                <input formControlName="address" />
+            </label>
+
+            <label>
+                City
+                <input formControlName="city" />
+            </label>
+
+            <label>
+                Rent
+                <input type="number" formControlName="rent" />
+            </label>
+
+            <label>
+                Area Size (sqm)
+                <input type="number" formControlName="areaSize" />
+            </label>
+
+            <label>
+                Has AC
+                <input type="checkbox" formControlName="hasAC" />
+            </label>
+
+            <label>
+                Year Built
+                <input type="number" formControlName="yearBuilt" />
+            </label>
+
+            <label>
+                Date Available
+                <input type="date" formControlName="dateAvailable" />
+            </label>
+
+            <div class="actions">
+                <button type="submit">Salvar</button>
+                <button type="button" (click)="cancelEdit()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

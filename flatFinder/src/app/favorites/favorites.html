@@ -1,12 +1,43 @@
 <!DOCTYPE html>
 <hmtl>
 
-    <head>
-    
-    </head>
     <body>
-        <h1>My favorite flats</h1>
-        
-        
+        <div class="favourite-flats">
+            <h2>My Favourite Flats</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Address</th>
+                        <th>Price</th>
+                        <th>Rooms</th>
+                        <th>Area (m²)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let flat of favouriteFlats">
+                        <td>{{ flat.id }}</td>
+                        <td>{{ flat.title }}</td>
+                        <td>{{ flat.address }}</td>
+                        <td>{{ flat.price | currency }}</td>
+                        <td>{{ flat.rooms }}</td>
+                        <td>{{ flat.area }}</td>
+
+                        <td>
+                            <button type="button" (click)="removeFromFavourites(flat)">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
     </body>
-</html>
+
+    </html>

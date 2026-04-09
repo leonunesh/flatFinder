@@ -3,7 +3,46 @@
     <head>
     </head>
     <body>
-        <h1>My flats</h1>
+        <div class="my-flats">
+  <h2>My Flats</h2>
 
+  <!-- Botão para inserir novo flat -->
+  <button type="button" (click)="onInsertNewFlat()">
+    Insert new flat
+  </button>
+
+  <!-- Tabela de flats -->
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Address</th>
+        <th>Price</th>
+        <th>Rooms</th>
+        <th>Area (m²)</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let flat of flats">
+        <!-- Propriedades do flat (exemplo) -->
+        <td>{{ flat.id }}</td>
+        <td>{{ flat.title }}</td>
+        <td>{{ flat.address }}</td>
+        <td>{{ flat.price | currency }}</td>
+        <td>{{ flat.rooms }}</td>
+        <td>{{ flat.area }}</td>
+
+        <!-- Ações -->
+        <td>
+          <button type="button" (click)="onViewFlat(flat)">View</button> |
+          <button type="button" (click)="onEditFlat(flat)">Edit</button> |
+          <button type="button" (click)="onDeleteFlat(flat)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
     </body>
 </html>

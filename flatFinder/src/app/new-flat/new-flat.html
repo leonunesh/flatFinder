@@ -1,38 +1,45 @@
-<!DOCTYPE html>
-<hmtl>
+<div class="new-flat-container">
+  <h1>New Flat</h1>
+  <form [formGroup]="flatForm" (ngSubmit)="submitForm()">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" formControlName="flatName" id="name">
+    </div>
+    <div class="form-group">
+      <label for="address">Address:</label>
+      <input type="text" formControlName="flatAddress" id="address">
+    </div>
 
-    <head>
-       
-    </head>
+    <div class="form-group">
+      <label for="city">City:</label>
+      <input type="text" formControlName="flatCity" id="city">
+    </div>
 
-    <body>
-        <h1>New Flat</h1>
-        <form [formGroup]="flatForm" (ngSubmit)="submitForm()">
-            <label for="name">Name:</label>
-            <input type="text" formControlName="flatName"><br>
+    <div class="form-group">
+      <label for="rent">Rent:</label>
+      <input type="number" formControlName="flatRent" id="rent">
+    </div>
 
-            <label for="address">Address:</label>
-            <input type="text" formControlName="flatAddress"><br>
+    <div class="form-group">
+      <label for="area-size">Area Size:</label>
+      <input type="number" formControlName="areaSize" id="area-size">
+    </div>
 
-            <label for="city">City:</label>
-            <input type="text" formControlName="flatCity"><br>
+    <div class="form-group">
+      <label for="hasAC">Has AC:</label>
+      <input type="checkbox" formControlName="hasAC" id="hasAC">
+    </div>
 
-            <label for="rent">Rent:</label>
-            <input type="number" formControlName="flatRent"><br>
+    <div class="form-group">
+      <label for="yearBuilt">Year Built:</label>
+      <input type="number" formControlName="yearBuilt" id="yearBuilt">
+    </div>
 
-            <label for="area-size">Area Size:</label>
-            <input type="number" formControlName="areaSize"><br>
+    <div class="form-group">
+      <label for="dateAvailable">Date Available:</label>
+      <input type="date" formControlName="dateAvailable" id="dateAvailable">
+    </div>
 
-            <label for="hasAC">Has AC:</label>
-            <input type="checkbox" formControlName="hasAC"><br>
-
-            <label for="yearBuilt">Year Built:</label>
-            <input type="number" formControlName="yearBuilt"><br>
-
-            <label for="dateAvailable">Date Available:</label>
-            <input type="date" formControlName="dateAvailable"><br>
-
-            <button type="submit">Add Flat</button>
-        </form>
-    </body>
-</hmtl>
+    <button type="submit" [disabled]="!flatForm.valid">Add Flat</button>
+  </form>
+</div>

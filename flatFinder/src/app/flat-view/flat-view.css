@@ -26,9 +26,8 @@
       font-weight: 600;
     }
 
-    /* ===== CONTAINER PRINCIPAL (Display + Edit) ===== */
-    .flat-details,
-    .flat-edit {
+    /* ===== CONTAINER PRINCIPAL ===== */
+    .flat-details {
       background-color: var(--white);
       max-width: 620px;
       margin: 0 auto 30px;
@@ -64,103 +63,10 @@
     .flat-details button {
       display: block;
       margin: 30px auto 0;
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 14px 32px;
+      border-radius: 12px;
       font-size: 1.1rem;
       font-weight: 600;
-      border-radius: 12px;
-      cursor: pointer;
       transition: all 0.3s ease;
-    }
-
-    .flat-details button:hover {
-      background-color: #3a2d46;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 15px rgba(74, 59, 86, 0.2);
-    }
-
-    /* ===== MODO EDIÇÃO ===== */
-    .flat-edit form {
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
-    }
-
-    .flat-edit label {
-      display: flex;
-      flex-direction: column;
-      font-weight: 600;
-      color: var(--primary);
-      font-size: 1.05rem;
-    }
-
-    .flat-edit input {
-      margin-top: 6px;
-      padding: 14px 16px;
-      border: 2px solid var(--light-border);
-      border-radius: 12px;
-      font-size: 1.05rem;
-      transition: all 0.3s ease;
-      background-color: #fff;
-    }
-
-    .flat-edit input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(74, 59, 86, 0.15);
-    }
-
-    .flat-edit input[type="checkbox"] {
-      width: 24px;
-      height: 24px;
-      accent-color: var(--primary);
-      margin-top: 8px;
-    }
-
-    /* Data e números ficam um pouco mais compactos */
-    .flat-edit input[type="date"],
-    .flat-edit input[type="number"] {
-      padding: 13px 16px;
-    }
-
-    /* ===== BOTÕES DE AÇÃO ===== */
-    .actions {
-      display: flex;
-      gap: 16px;
-      margin-top: 20px;
-    }
-
-    .actions button {
-      flex: 1;
-      padding: 16px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .actions button[type="submit"] {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-    }
-
-    .actions button[type="submit"]:hover {
-      background-color: #3a2d46;
-      transform: translateY(-2px);
-    }
-
-    .actions button[type="button"] {
-      background-color: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
-    }
-
-    .actions button[type="button"]:hover {
-      background-color: #f0ebee;
     }
 
     /* ===== RESPONSIVIDADE ===== */
@@ -168,8 +74,7 @@
       body {
         padding: 20px 15px;
       }
-      .flat-details,
-      .flat-edit {
+      .flat-details {
         padding: 24px 20px;
       }
       h2 {

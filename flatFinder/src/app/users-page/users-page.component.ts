@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-users-page',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './users-page.component.html',
   styleUrl: './users-page.component.css'
 })

@@ -1,12 +1,14 @@
-<!DOCTYPE html>
-<html>
-    <head>
-    </head>
 
-    <body>
-        <h1>Hello, {{ firstName }}! Welcome to FlatFinder!</h1>
-        <p>Find your perfect flat here.</p>
+<div class="home-container">
+  <h1>Hello, {{ firstName }}! Welcome to FlatFinder!</h1>
+  <p>Find your perfect flat here.</p>
 
-        <!--add routing to the other components, as long as the register and log in parts-->
-    </body>
-</html>
+  <div class="navigation">
+    <a routerLink="/my-flats">My Flats</a> |
+    <a routerLink="/new-flat">Add New Flat</a> |
+    <a routerLink="/favorites">Favorites</a> |
+    <a routerLink="/messages">Messages</a> |
+    <a routerLink="/profile">Profile</a> |
+    <a routerLink="/users">Users</a>
+  </div>
+</div>

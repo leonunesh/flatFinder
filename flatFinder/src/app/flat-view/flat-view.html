@@ -1,16 +1,16 @@
-<div class="flat-container">
-  <h2>My flat's details</h2>
-  <div class="flat-details" *ngIf="flat">
-    <p><strong>Name:</strong> {{ flat.name }}</p>
-    <p><strong>Address:</strong> {{ flat.address }}</p>
-    <p><strong>City:</strong> {{ flat.city }}</p>
-    <p><strong>Rent:</strong> {{ flat.rent }}</p>
-    <p><strong>Area Size:</strong> {{ flat.areaSize }} sqm</p>
-    <p><strong>Has AC:</strong> {{ flat.hasAC ? 'Yes' : 'No' }}</p>
-    <p><strong>Year Built:</strong> {{ flat.yearBuilt }}</p>
-    <p><strong>Date Available:</strong> {{ flat.dateAvailable | date }}</p>
-  </div>
+<h2>Detalhes do Imóvel</h2>
 
-  <h2>Edit my flat</h2>
-  <!-- Edit form will go here -->
+<div class="flat-details" *ngIf="flat">
+  <p><strong>Nome:</strong> {{ flat.name }}</p>
+  <p><strong>Endereço:</strong> {{ flat.address }}</p>
+  <p><strong>Cidade:</strong> {{ flat.city }}</p>
+  <p><strong>Aluguel:</strong> R$ {{ flat.rent }}</p>
+  <p><strong>Área:</strong> {{ flat.areaSize }} m²</p>
+  <p><strong>Ar Condicionado:</strong> {{ flat.hasAC ? 'Sim' : 'Não' }}</p>
+  <p><strong>Ano de Construção:</strong> {{ flat.yearBuilt }}</p>
+  <p><strong>Data Disponível:</strong> {{ flat.dateAvailable | date:'dd/MM/yyyy' }}</p>
+
+  <button mat-raised-button color="primary" *ngIf="isOwner" (click)="startEdit()">
+    Editar
+  </button>
 </div>

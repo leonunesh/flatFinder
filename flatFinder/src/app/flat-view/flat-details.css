@@ -1,0 +1,25 @@
+.flat-details-dialog {
+  min-width: 500px;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.checkbox-field {
+  margin-top: 16px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-dialog-actions {
+  padding: 16px 0 0 0;
+}

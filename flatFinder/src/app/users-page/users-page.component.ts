@@ -6,7 +6,7 @@ import { FirebaseService } from '../services/firebase.service';
   selector: 'app-users-page',
   imports: [CommonModule],
   templateUrl: './users-page.component.html',
-  styleUrl: './users-page.component.css'
+  styleUrls: ['./users-page.component.css']
 })
 export class UsersPageComponent implements OnInit {
 

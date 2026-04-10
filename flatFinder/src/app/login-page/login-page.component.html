@@ -1,45 +1,33 @@
-<!DOCTYPE html> 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Login Page</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<div class="login-container">
+  <h1>Login</h1>
 
-  <!-- Email -->
-  <div>
-    <label>Email</label>
-    <input type="email" formControlName="email" placeholder="Enter email">
-    
-    <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-      Valid email is required
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <label>
+      Email
+      <input type="email" formControlName="email" placeholder="Digite seu email">
+    </label>
+    <div class="field-error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+      Email válido é obrigatório
     </div>
-  </div>
 
-  <!-- Password -->
-  <div>
-    <label>Password</label>
-    <input type="password" formControlName="password" placeholder="Enter password">
-    
-    <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-      Password is required
+    <label>
+      Senha
+      <input type="password" formControlName="password" placeholder="Digite sua senha">
+    </label>
+    <div class="field-error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+      Senha é obrigatória
     </div>
-  </div>
 
-  <!-- Error -->
-  <div *ngIf="errorMessage">
-    {{ errorMessage }}
-  </div>
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
 
-  <!-- Button -->
-  <button type="submit" [disabled]="loading">
-    {{ loading ? 'Logging in...' : 'Login' }}
-  </button>
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'Entrando...' : 'Entrar' }}
+    </button>
 
-</form>
-</body>
-</html>
+    <div class="links">
+      <p>Não tem conta? <a routerLink="/register">Cadastre-se aqui</a></p>
+    </div>
+  </form>
+</div>

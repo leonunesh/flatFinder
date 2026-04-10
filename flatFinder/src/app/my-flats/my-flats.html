@@ -1,16 +1,27 @@
-<<<<<<< HEAD
 <div class="my-flats-container">
-  <h1>My flats</h1>
-  <p>Here you can view and manage your flats.</p>
-</div>
-=======
-<!DOCTYPE html>
-<html>
-    <head>
-    </head>
-    <body>
-        <h1>My flats</h1>
+  <h1>Meus Imóveis</h1>
 
-    </body>
-</html>
->>>>>>> aaab6d02ad8ea1f10ce34440601c82efd027d8f2
+  <div *ngIf="loading" class="loading">Carregando imóveis...</div>
+
+  <div *ngIf="!loading && flats.length === 0" class="no-flats">
+    <p>Você ainda não possui imóveis cadastrados.</p>
+    <a routerLink="/new-flat" class="add-flat-link">Adicionar primeiro imóvel</a>
+  </div>
+
+  <div *ngIf="!loading && flats.length > 0" class="flats-list">
+    <div *ngFor="let flat of flats" class="flat-card">
+      <h3>{{ flat.name }}</h3>
+      <p><strong>Endereço:</strong> {{ flat.address }}</p>
+      <p><strong>Cidade:</strong> {{ flat.city }}</p>
+      <p><strong>Aluguel:</strong> R$ {{ flat.rent }}</p>
+      <p><strong>Área:</strong> {{ flat.areaSize }} m²</p>
+      <p><strong>Ar Condicionado:</strong> {{ flat.hasAC ? 'Sim' : 'Não' }}</p>
+      <p><strong>Data Disponível:</strong> {{ flat.dateAvailable | date:'dd/MM/yyyy' }}</p>
+
+      <div class="actions">
+        <button (click)="viewFlat(flat)" class="view-btn">Ver Detalhes</button>
+        <button (click)="editFlat(flat)" class="edit-btn">Editar</button>
+      </div>
+    </div>
+  </div>
+</div>

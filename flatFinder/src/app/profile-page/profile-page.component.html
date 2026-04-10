@@ -1,1 +1,49 @@
-<p>profile-page works!</p>
+<div class="profile-page-container">
+  <h1>Profile</h1>
+
+  <div *ngIf="loading" class="status-message">Loading...</div>
+  <div *ngIf="userNotFound && !loading" class="status-message error">
+    User is not authenticated or not found.
+  </div>
+  <div *ngIf="errorMessage && !loading" class="status-message error">
+    {{ errorMessage }}
+  </div>
+  <div *ngIf="successMessage && !loading" class="status-message success">
+    {{ successMessage }}
+  </div>
+
+  <form [formGroup]="profileForm" (ngSubmit)="onSave()" *ngIf="!userNotFound && !loading">
+    <label>
+      Name
+      <input formControlName="firstName" placeholder="Name" />
+    </label>
+    <div class="field-error" *ngIf="profileForm.get('firstName')?.touched && profileForm.get('firstName')?.invalid">
+      Please enter your name.
+    </div>
+
+    <label>
+      Last Name
+      <input formControlName="lastName" placeholder="Last Name" />
+    </label>
+    <div class="field-error" *ngIf="profileForm.get('lastName')?.touched && profileForm.get('lastName')?.invalid">
+      Please enter your last name.
+    </div>
+
+    <label>
+      E-mail
+      <input type="email" formControlName="email" [disabled]="true" />
+    </label>
+
+    <label>
+      Birth Date
+      <input type="date" formControlName="birthDate" />
+    </label>
+    <div class="field-error" *ngIf="profileForm.get('birthDate')?.touched && profileForm.get('birthDate')?.invalid">
+      Please enter your birth date.
+    </div>
+
+    <button type="submit" [disabled]="saving">
+      {{ saving ? 'Saving...' : 'Save Changes' }}
+    </button>
+  </form>
+</div>

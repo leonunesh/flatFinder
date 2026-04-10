@@ -1,0 +1,95 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f8f6f9;
+    color: #4a3b57;
+    margin: 0;
+    padding: 40px;
+}
+
+.profile-page-container h1 {
+    text-align: center;
+    color: #7a4bb5;
+    margin-bottom: 30px;
+}
+
+.profile-page-container form {
+    max-width: 450px;
+    margin: 0 auto;
+    background: white;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(123, 93, 163, 0.15);
+    border: 1px solid #dcd6e3;
+}
+
+.profile-page-container label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #7a4bb5;
+}
+
+.profile-page-container input[type="text"],
+.profile-page-container input[type="email"],
+.profile-page-container input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 6px;
+    border: 1px solid #dcd6e3;
+    background-color: #f8f6f9;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.profile-page-container input:focus {
+    border-color: #9b6dd6;
+    outline: none;
+}
+
+.field-error {
+    margin-top: 4px;
+    color: #c0392b;
+    font-size: 0.9rem;
+}
+
+button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px;
+    background-color: #9b6dd6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background-color: #7a4bb5;
+}
+
+button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.status-message {
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #f4f4f4;
+}
+
+.status-message.error {
+    border: 1px solid #d32f2f;
+    color: #7f1d1d;
+    background: #fdecea;
+}
+
+.status-message.success {
+    border: 1px solid #2e7d32;
+    color: #155724;
+    background: #e8f5e9;
+}

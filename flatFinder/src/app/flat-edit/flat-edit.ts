@@ -5,6 +5,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   selector: 'app-flat-edit',
   imports: [],
   templateUrl: './flat-edit.html',
-  styleUrl: './flat-edit.css',
+  styleUrls: ['./flat-edit.css'],
 })
 export class FlatEdit {}

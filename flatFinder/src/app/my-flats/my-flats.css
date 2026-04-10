@@ -1,0 +1,108 @@
+.my-flats-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.my-flats-container h1 {
+  text-align: center;
+  color: #7a4bb5;
+  margin-bottom: 30px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
+}
+
+.no-flats {
+  text-align: center;
+  padding: 40px;
+  background: #f8f6f9;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.no-flats p {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.add-flat-link {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #9b6dd6;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.add-flat-link:hover {
+  background: #7a4bb5;
+}
+
+.flats-list {
+  display: grid;
+  gap: 20px;
+}
+
+.flat-card {
+  background: white;
+  border: 1px solid #dcd6e3;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(123, 93, 163, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.flat-card:hover {
+  box-shadow: 0 4px 16px rgba(123, 93, 163, 0.15);
+}
+
+.flat-card h3 {
+  color: #7a4bb5;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.flat-card p {
+  margin: 8px 0;
+  color: #4a3b57;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.view-btn, .edit-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.view-btn {
+  background: #2c3e50;
+  color: white;
+}
+
+.view-btn:hover {
+  background: #1a252f;
+}
+
+.edit-btn {
+  background: #9b6dd6;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #7a4bb5;
+}

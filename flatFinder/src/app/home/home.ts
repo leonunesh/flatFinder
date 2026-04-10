@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 
 @Component({
@@ -8,12 +8,15 @@ import { FirebaseService } from '../services/firebase.service';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './home.html',
-  styleUrl: './home.css',
+  styleUrls: ['./home.css'],
 })
 export class Home implements OnInit {
   firstName = '';
 
-  constructor(private firebaseService: FirebaseService) { }
+  constructor(
+    private firebaseService: FirebaseService,
+    private router: Router
+  ) { }
 
   async ngOnInit() {
     const userData = await this.firebaseService.getCurrentUserData();
@@ -21,5 +24,10 @@ export class Home implements OnInit {
     if (userData) {
       this.firstName = userData['firstName'];
     }
+  }
+
+  async logout() {
+    await this.firebaseService.logout();
+    await this.router.navigate(['/login']);
   }
 }

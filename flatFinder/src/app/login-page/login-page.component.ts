@@ -2,13 +2,16 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FirebaseService } from '../services/firebase.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
-  imports: [ReactiveFormsModule, CommonModule],
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.css'
+  styleUrls: ['./login-page.component.css']
 })
+
 export class LoginPageComponent {
 
   loading = false;
@@ -17,7 +20,8 @@ export class LoginPageComponent {
 
   constructor(
     private fb: FormBuilder,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private router: Router
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -40,11 +44,7 @@ export class LoginPageComponent {
       const userCredential = await this.firebaseService.login(email!, password!);
 
       console.log('User logged in:', userCredential.user);
-
-      alert('Login successful!');
-
-      // 👉 aqui você pode redirecionar depois
-      // ex: this.router.navigate(['/dashboard'])
+      await this.router.navigate(['/home']);
 
     } catch (error: any) {
       console.error(error);

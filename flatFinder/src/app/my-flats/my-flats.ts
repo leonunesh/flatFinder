@@ -1,20 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FirebaseService } from '../services/firebase.service';
-
-interface Flat {
-  id: string;
-  name: string;
-  address: string;
-  city: string;
-  rent: number;
-  areaSize: number;
-  hasAC: boolean;
-  yearBuilt: number;
-  dateAvailable: string;
-  ownerId: string;
-}
 
 @Component({
   selector: 'app-my-flats',
@@ -22,40 +7,61 @@ interface Flat {
   templateUrl: './my-flats.html',
   styleUrls: ['./my-flats.css'],
 })
-export class MyFlats implements OnInit {
-  flats: Flat[] = [];
-  loading = false;
+export class MyFlats {}
 
-  constructor(
-    private firebaseService: FirebaseService,
-    private router: Router
-  ) {}
+export interface Flat {
+  id: number;
+  title: string;
+  address: string;
+  price: number;
+  rooms: number;
+  area: number;
+  // adicione aqui outras propriedades conforme sua entidade
+}
+export class FlatsManagementComponent {
+  flats: Flat[] = [
+    {
+      id: 1,
+      title: 'Cozy Studio',
+      address: '123 Main St, Vancouver',
+      price: 1500,
+      rooms: 1,
+      area: 35,
+    },
+    {
+      id: 2,
+      title: '2BR Apartment',
+      address: '456 Oak Ave, Vancouver',
+      price: 2500,
+      rooms: 2,
+      area: 70,
+    },
+  ];
 
-  async ngOnInit() {
-    await this.loadUserFlats();
+  constructor(private router: Router) {}
+
+  onInsertNewFlat(): void {
+    // aqui você pode navegar para a página de criação ou abrir um modal
+    // exemplo com rota:
+    this.router.navigate(['/flats/new']);
   }
 
-  private async loadUserFlats() {
-    this.loading = true;
-    try {
-      const flatsData = await this.firebaseService.getUserFlats();
-      this.flats = flatsData as Flat[];
-    } catch (error) {
-      console.error('Erro ao carregar imóveis:', error);
-    } finally {
-      this.loading = false;
-    }
+  onDeleteFlat(flat: Flat): void {
+    // lógica de remoção (pode chamar um service)
+    const confirmed = confirm(`Delete flat "${flat.title}"?`);
+    if (!confirmed) return;
+
+    this.flats = this.flats.filter(f => f.id !== flat.id);
+    // em um app real, chame o service e depois atualize a lista
   }
 
-  viewFlat(flat: Flat) {
-    this.router.navigate(['/flat-view'], {
-      queryParams: { id: flat.id }
-    });
+  onViewFlat(flat: Flat): void {
+    // navega para a página de visualização do flat
+    this.router.navigate(['/flats', flat.id, 'view']);
   }
 
-  editFlat(flat: Flat) {
-    this.router.navigate(['/flat-view'], {
-      queryParams: { id: flat.id, edit: 'true' }
-    });
+  onEditFlat(flat: Flat): void {
+    // navega para a página de edição do flat
+    this.router.navigate(['/flats', flat.id, 'edit']);
   }
 }

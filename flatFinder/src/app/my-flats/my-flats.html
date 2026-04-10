@@ -1,27 +1,52 @@
-<div class="my-flats-container">
-  <h1>Meus Imóveis</h1>
 
-  <div *ngIf="loading" class="loading">Carregando imóveis...</div>
-
-  <div *ngIf="!loading && flats.length === 0" class="no-flats">
-    <p>Você ainda não possui imóveis cadastrados.</p>
-    <a routerLink="/new-flat" class="add-flat-link">Adicionar primeiro imóvel</a>
-  </div>
-
-  <div *ngIf="!loading && flats.length > 0" class="flats-list">
-    <div *ngFor="let flat of flats" class="flat-card">
-      <h3>{{ flat.name }}</h3>
-      <p><strong>Endereço:</strong> {{ flat.address }}</p>
-      <p><strong>Cidade:</strong> {{ flat.city }}</p>
-      <p><strong>Aluguel:</strong> R$ {{ flat.rent }}</p>
-      <p><strong>Área:</strong> {{ flat.areaSize }} m²</p>
-      <p><strong>Ar Condicionado:</strong> {{ flat.hasAC ? 'Sim' : 'Não' }}</p>
-      <p><strong>Data Disponível:</strong> {{ flat.dateAvailable | date:'dd/MM/yyyy' }}</p>
-
-      <div class="actions">
-        <button (click)="viewFlat(flat)" class="view-btn">Ver Detalhes</button>
-        <button (click)="editFlat(flat)" class="edit-btn">Editar</button>
-      </div>
-    </div>
-  </div>
+<html>
+    <head>
+    </head>
+    <body>
+        <div class="my-flats">
+  <h2>My Flats</h2>
+  <div class="my-flats-container">
+  <h1>My flats</h1>
+  <p>Here you can view and manage your flats.</p>
 </div>
+
+  <!-- Botão para inserir novo flat -->
+  <button type="button" (click)="onInsertNewFlat()">
+    Insert new flat
+  </button>
+
+  <!-- Tabela de flats -->
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Address</th>
+        <th>Price</th>
+        <th>Rooms</th>
+        <th>Area (m²)</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let flat of flats">
+        <!-- Propriedades do flat (exemplo) -->
+        <td>{{ flat.id }}</td>
+        <td>{{ flat.title }}</td>
+        <td>{{ flat.address }}</td>
+        <td>{{ flat.price | currency }}</td>
+        <td>{{ flat.rooms }}</td>
+        <td>{{ flat.area }}</td>
+
+        <!-- Ações -->
+        <td>
+          <button type="button" (click)="onViewFlat(flat)">View</button> |
+          <button type="button" (click)="onEditFlat(flat)">Edit</button> |
+          <button type="button" (click)="onDeleteFlat(flat)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+    </body>
+</html>

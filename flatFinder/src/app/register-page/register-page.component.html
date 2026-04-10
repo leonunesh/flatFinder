@@ -1,45 +1,45 @@
 <div class="register-container">
-  <h1>Cadastro</h1>
+  <h1>Register</h1>
 
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <label>
-      Nome
-      <input type="text" formControlName="firstName" placeholder="Digite seu nome">
+      First Name
+      <input type="text" formControlName="firstName" placeholder="Enter your first name">
     </label>
     <div class="field-error" *ngIf="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.invalid">
-      Nome é obrigatório
+      First name is required
     </div>
 
     <label>
-      Sobrenome
-      <input type="text" formControlName="lastName" placeholder="Digite seu sobrenome">
+      Last Name
+      <input type="text" formControlName="lastName" placeholder="Enter your last name">
     </label>
     <div class="field-error" *ngIf="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.invalid">
-      Sobrenome é obrigatório
+      Last name is required
     </div>
 
     <label>
       Email
-      <input type="email" formControlName="email" placeholder="Digite seu email">
+      <input type="email" formControlName="email" placeholder="Enter your email">
     </label>
     <div class="field-error" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
-      Email válido é obrigatório
+      Valid email is required
     </div>
 
     <label>
-      Senha
-      <input type="password" formControlName="password" placeholder="Digite sua senha">
+      Password
+      <input type="password" formControlName="password" placeholder="Enter your password">
     </label>
     <div class="field-error" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
-      Senha deve ter pelo menos 6 caracteres
+      Password must have at least 6 characters
     </div>
 
     <label>
-      Data de Nascimento
+      Birth Date
       <input type="date" formControlName="birthDate">
     </label>
     <div class="field-error" *ngIf="registerForm.get('birthDate')?.touched && registerForm.get('birthDate')?.invalid">
-      Data de nascimento é obrigatória
+      Birth date is required
     </div>
 
     <div class="error-message" *ngIf="errorMessage">
@@ -47,11 +47,11 @@
     </div>
 
     <button type="submit" [disabled]="loading || registerForm.invalid">
-      {{ loading ? 'Cadastrando...' : 'Cadastrar' }}
+      {{ loading ? 'Registering...' : 'Register' }}
     </button>
 
     <div class="links">
-      <p>Já tem conta? <a routerLink="/login">Faça login aqui</a></p>
+      <p>Already have an account? <a routerLink="/login">Login here</a></p>
     </div>
   </form>
 </div>

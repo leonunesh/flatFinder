@@ -1,4 +1,3 @@
-
 <div class="home-container">
   <h1>Hello, {{ firstName }}! Welcome to FlatFinder!</h1>
   <p>Find your perfect flat here.</p>
@@ -10,7 +9,46 @@
     <a routerLink="/messages">Messages</a> |
     <a routerLink="/profile">Profile</a> |
     <a routerLink="/users">Users</a>
+    <button class="logout-button" (click)="logout()">Logout</button>
   </div>
 
-  <button class="logout-button" (click)="logout()">Logout</button>
+  <h2>Available Flats</h2>
+  <div *ngIf="loading" class="loading">Loading flats...</div>
+
+  <div *ngIf="!loading" class="flats-section">
+    <table class="flats-table" *ngIf="allFlats.length > 0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>Rent</th>
+          <th>Area (m²)</th>
+          <th>AC</th>
+          <th>Year Built</th>
+          <th>Available Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let flat of allFlats">
+          <td>{{ flat.name }}</td>
+          <td>{{ flat.address }}</td>
+          <td>{{ flat.city }}</td>
+          <td>{{ flat.rent | currency:'USD':'symbol':'1.0-0' }}</td>
+          <td>{{ flat.areaSize }}</td>
+          <td>{{ flat.hasAC ? 'Yes' : 'No' }}</td>
+          <td>{{ flat.yearBuilt }}</td>
+          <td>{{ flat.dateAvailable | date:'shortDate' }}</td>
+          <td>
+            <button (click)="toggleFavorite(flat.id)" [class.favorite]="isFavorite(flat.id)" class="favorite-btn"
+              title="Add to favorites">
+              ⭐ {{ isFavorite(flat.id) ? 'Favorited' : 'Add to Favorites' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="allFlats.length === 0" class="no-flats">No flats available.</p>
+  </div>
 </div>

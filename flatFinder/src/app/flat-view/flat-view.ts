@@ -214,25 +214,25 @@ export class FlatDetailsComponent {
     MatInputModule
   ],
   template: `
-    <h2 mat-dialog-title>Enviar Mensagem</h2>
+    <h2 mat-dialog-title>Send Message</h2>
     <mat-dialog-content>
       <form [formGroup]="messageForm">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Mensagem</mat-label>
+          <mat-label>Message</mat-label>
           <textarea matInput
                     formControlName="message"
                     rows="4"
-                    placeholder="Digite sua mensagem para o proprietário..."></textarea>
+                    placeholder="Enter your message to the owner..."></textarea>
           <mat-error *ngIf="messageForm.get('message')?.invalid && messageForm.get('message')?.touched">
-            Mensagem é obrigatória
+            Message is required
           </mat-error>
         </mat-form-field>
       </form>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-button (click)="cancel()">Cancelar</button>
+      <button mat-button (click)="cancel()">Cancel</button>
       <button mat-raised-button color="primary" (click)="send()" [disabled]="messageForm.invalid || sending">
-        {{ sending ? 'Enviando...' : 'Enviar' }}
+        {{ sending ? 'Sending...' : 'Send' }}
       </button>
     </mat-dialog-actions>
   `,

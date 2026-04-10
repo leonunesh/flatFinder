@@ -1,5 +1,15 @@
 <div class="profile-page-container">
-  <h1>Profile</h1>
+  <h1>My Profile</h1>
+
+  <div class="navigation">
+    <a routerLink="/home">Home</a> |
+    <a routerLink="/my-flats">My Flats</a> |
+    <a routerLink="/new-flat">Add New Flat</a> |
+    <a routerLink="/favorites">Favorites</a> |
+    <a routerLink="/messages">Messages</a> |
+    <a routerLink="/users">Users</a>
+    <button class="logout-button" (click)="logout()">Logout</button>
+  </div>
 
   <div *ngIf="loading" class="status-message">Loading...</div>
   <div *ngIf="userNotFound && !loading" class="status-message error">
@@ -14,11 +24,11 @@
 
   <form [formGroup]="profileForm" (ngSubmit)="onSave()" *ngIf="!userNotFound && !loading">
     <label>
-      Name
-      <input formControlName="firstName" placeholder="Name" />
+      First Name
+      <input formControlName="firstName" placeholder="First Name" />
     </label>
     <div class="field-error" *ngIf="profileForm.get('firstName')?.touched && profileForm.get('firstName')?.invalid">
-      Please enter your name.
+      Please enter your first name.
     </div>
 
     <label>
@@ -30,7 +40,7 @@
     </div>
 
     <label>
-      E-mail
+      Email
       <input type="email" formControlName="email" [disabled]="true" />
     </label>
 

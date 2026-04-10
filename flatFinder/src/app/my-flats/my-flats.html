@@ -1,52 +1,52 @@
-
-<html>
-    <head>
-    </head>
-    <body>
-        <div class="my-flats">
-  <h2>My Flats</h2>
-  <div class="my-flats-container">
-  <h1>My flats</h1>
+<div class="my-flats-container">
+  <h1>My Flats</h1>
   <p>Here you can view and manage your flats.</p>
+
+  <div class="navigation">
+    <a routerLink="/home">Home</a> |
+    <a routerLink="/new-flat">Add New Flat</a> |
+    <a routerLink="/favorites">Favorites</a> |
+    <a routerLink="/messages">Messages</a> |
+    <a routerLink="/profile">Profile</a> |
+    <a routerLink="/users">Users</a>
+    <button class="logout-button" (click)="logout()">Logout</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading your flats...</div>
+
+  <div *ngIf="loaded" class="flats-section">
+    <table class="flats-table" *ngIf="flats.length > 0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>Rent</th>
+          <th>Area (m²)</th>
+          <th>Air Conditioning</th>
+          <th>Year Built</th>
+          <th>Available Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let flat of flats">
+          <td>{{ flat.name }}</td>
+          <td>{{ flat.address }}</td>
+          <td>{{ flat.city }}</td>
+          <td>{{ flat.rent | currency:'USD':'symbol':'1.0-0' }}</td>
+          <td>{{ flat.areaSize }}</td>
+          <td>{{ flat.hasAC ? 'Yes' : 'No' }}</td>
+          <td>{{ flat.yearBuilt }}</td>
+          <td>{{ flat.dateAvailable | date:'shortDate' }}</td>
+          <td>
+            <button class="action-btn" (click)="onViewFlat(flat)">View</button>
+            <button class="action-btn" (click)="onEditFlat(flat)">Edit</button>
+            <button class="action-btn delete-btn" (click)="onDeleteFlat(flat)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="flats.length === 0" class="no-flats">You don't have any flats yet. <a routerLink="/new-flat">Create one now!</a></p>
+  </div>
 </div>
-
-  <!-- Botão para inserir novo flat -->
-  <button type="button" (click)="onInsertNewFlat()">
-    Insert new flat
-  </button>
-
-  <!-- Tabela de flats -->
-  <table>
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>Title</th>
-        <th>Address</th>
-        <th>Price</th>
-        <th>Rooms</th>
-        <th>Area (m²)</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let flat of flats">
-        <!-- Propriedades do flat (exemplo) -->
-        <td>{{ flat.id }}</td>
-        <td>{{ flat.title }}</td>
-        <td>{{ flat.address }}</td>
-        <td>{{ flat.price | currency }}</td>
-        <td>{{ flat.rooms }}</td>
-        <td>{{ flat.area }}</td>
-
-        <!-- Ações -->
-        <td>
-          <button type="button" (click)="onViewFlat(flat)">View</button> |
-          <button type="button" (click)="onEditFlat(flat)">Edit</button> |
-          <button type="button" (click)="onDeleteFlat(flat)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-    </body>
-</html>

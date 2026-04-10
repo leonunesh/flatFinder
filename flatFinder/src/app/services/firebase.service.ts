@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 
 // Auth
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence, onAuthStateChanged } from 'firebase/auth';
 
 // Firestore
-import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, getDocs, addDoc, query, where } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, getDocs, addDoc, query, where, deleteDoc, QueryDocumentSnapshot } from 'firebase/firestore';
 
 // Environment
 import { environment } from '../../environments/environment';
@@ -31,7 +31,11 @@ export class FirebaseService {
         this.auth = getAuth(this.app);
         this.db = getFirestore(this.app);
 
-        console.log('FirebaseService inicializado');
+        setPersistence(this.auth, browserLocalPersistence).catch(err => {
+            console.warn('Could not set auth persistence:', err);
+        });
+
+        console.log('FirebaseService initialized');
         console.log('Firebase config:', environment.firebase);
         console.log('Firebase auth domain:', environment.firebase.authDomain);
     }
@@ -103,6 +107,7 @@ export class FirebaseService {
         console.log('Dados salvos com sucesso');
     }
     async login(email: string, password: string) {
+        await setPersistence(this.auth, browserLocalPersistence);
         return await signInWithEmailAndPassword(
             this.auth,
             email,
@@ -128,35 +133,102 @@ export class FirebaseService {
         const usersRef = collection(this.db, 'users');
         const snapshot = await getDocs(usersRef);
 
-        return snapshot.docs.map(doc => doc.data());
+        return snapshot.docs.map((doc: QueryDocumentSnapshot) => doc.data());
     }
+    private waitForUser(): Promise<any | null> {
+        const currentUser = this.auth.currentUser;
+        if (currentUser) {
+            return Promise.resolve(currentUser);
+        }
+
+        return new Promise(resolve => {
+            let timeoutId: any;
+            
+            // Set timeout to resolve after 10 seconds
+            timeoutId = setTimeout(() => {
+                unsubscribe();
+                resolve(null);
+            }, 10000);
+
+            const unsubscribe = onAuthStateChanged(this.auth, user => {
+                clearTimeout(timeoutId);
+                unsubscribe();
+                resolve(user);
+            }, (error) => {
+                clearTimeout(timeoutId);
+                unsubscribe();
+                console.error('Auth state change error:', error);
+                resolve(null);
+            });
+        });
+    }
+
     async getCurrentUserData(): Promise<any | null> {
-        const user = this.auth.currentUser;
+        const user = await this.waitForUser();
 
         if (!user) return null;
 
         const docRef = doc(this.db, 'users', user.uid);
-        const snapshot = await getDoc(docRef);
+        
+        try {
+            const snapshot = await getDoc(docRef);
 
-        if (snapshot.exists()) {
-            return snapshot.data();
+            if (snapshot.exists()) {
+                return snapshot.data();
+            }
+
+            // If document doesn't exist, return user object with basic info
+            // This prevents "userNotFound" if the document wasn't created yet
+            return {
+                uid: user.uid,
+                email: user.email,
+                firstName: '',
+                lastName: '',
+                birthDate: ''
+            };
+        } catch (error) {
+            console.error('Error getting user data:', error);
+            // Return user object even if Firestore fails
+            return {
+                uid: user.uid,
+                email: user.email,
+                firstName: '',
+                lastName: '',
+                birthDate: ''
+            };
         }
-
-        return null;
     }
 
     async updateCurrentUserData(data: any) {
-        const user = this.auth.currentUser;
+        const user = await this.waitForUser();
 
         if (!user) return false;
 
         const docRef = doc(this.db, 'users', user.uid);
-        await updateDoc(docRef, data);
+        
+        try {
+            // Try to update first
+            await updateDoc(docRef, data);
+        } catch (error: any) {
+            // If document doesn't exist, create it
+            if (error.code === 'not-found') {
+                const userData = {
+                    uid: user.uid,
+                    email: user.email,
+                    ...data,
+                    createdAt: new Date()
+                };
+                await setDoc(docRef, userData);
+            } else {
+                throw error;
+            }
+        }
+        
         return true;
     }
 
     async sendMessage(toUserId: string, message: string) {
-        const user = this.auth.currentUser;
+        const user = await this.waitForUser();
 
         if (!user) return false;
 
@@ -173,13 +245,16 @@ export class FirebaseService {
     }
 
     async createFlat(flatData: any) {
-        const user = this.auth.currentUser;
+        const user = await this.waitForUser();
 
-        if (!user) return null;
+        if (!user) {
+            throw new Error('User not authenticated');
+        }
 
         const flatWithOwner = {
             ...flatData,
             ownerId: user.uid,
+            userId: user.uid,
             createdAt: new Date()
         };
 
@@ -188,31 +263,34 @@ export class FirebaseService {
     }
 
     async getUserFlats(): Promise<any[]> {
-        const user = this.auth.currentUser;
+        const user = await this.waitForUser();
 
         if (!user) return [];
 
         const flatsRef = collection(this.db, 'flats');
-        const q = query(flatsRef, where('ownerId', '==', user.uid));
-        const snapshot = await getDocs(q);
+        const snapshot = await getDocs(flatsRef);
 
-        return snapshot.docs.map(doc => ({
+        const flats = snapshot.docs.map((doc: QueryDocumentSnapshot) => ({
             id: doc.id,
             ...doc.data()
         }));
+
+        return flats.filter((flat: any) => flat.ownerId === user.uid || flat.userId === user.uid);
     }
 
     async getAllFlats(): Promise<any[]> {
+        await this.waitForUser();
         const flatsRef = collection(this.db, 'flats');
         const snapshot = await getDocs(flatsRef);
 
-        return snapshot.docs.map(doc => ({
+        return snapshot.docs.map((doc: QueryDocumentSnapshot) => ({
             id: doc.id,
             ...doc.data()
         }));
     }
 
     async getFlatById(flatId: string): Promise<any | null> {
+        await this.waitForUser();
         const docRef = doc(this.db, 'flats', flatId);
         const snapshot = await getDoc(docRef);
 
@@ -229,6 +307,56 @@ export class FirebaseService {
     async updateFlat(flatId: string, flatData: any) {
         const docRef = doc(this.db, 'flats', flatId);
         await updateDoc(docRef, flatData);
+        return true;
+    }
+
+    async deleteFlat(flatId: string) {
+        const docRef = doc(this.db, 'flats', flatId);
+        await deleteDoc(docRef);
+        return true;
+    }
+
+    async getCurrentUser() {
+        return await this.waitForUser();
+    }
+
+    async getUserFavorites(): Promise<any[]> {
+        const user = await this.waitForUser();
+        if (!user) return [];
+
+        const favoritesRef = collection(this.db, 'favorites');
+        const q = query(favoritesRef, where('userId', '==', user.uid));
+        const snapshot = await getDocs(q);
+
+        return snapshot.docs.map((doc: QueryDocumentSnapshot) => doc.data());
+    }
+
+    async addToFavorites(flatId: string) {
+        const user = await this.waitForUser();
+        if (!user) return false;
+
+        const favoriteData = {
+            userId: user.uid,
+            flatId,
+            createdAt: new Date()
+        };
+
+        await addDoc(collection(this.db, 'favorites'), favoriteData);
+        return true;
+    }
+
+    async removeFromFavorites(flatId: string) {
+        const user = await this.waitForUser();
+        if (!user) return false;
+
+        const favoritesRef = collection(this.db, 'favorites');
+        const q = query(favoritesRef, where('userId', '==', user.uid), where('flatId', '==', flatId));
+        const snapshot = await getDocs(q);
+
+        for (const doc of snapshot.docs) {
+            await deleteDoc(doc.ref);
+        }
+
         return true;
     }
 

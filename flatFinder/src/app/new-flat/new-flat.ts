@@ -1,15 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FirebaseService } from '../services/firebase.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-new-flat',
-  imports: [ReactiveFormsModule],
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './new-flat.html',
   styleUrls: ['./new-flat.css']
 })
-export class NewFlatComponent {
+export class NewFlatComponent implements OnInit {
+  async ngOnInit() {
+    const user = await this.firebaseService.getCurrentUser();
+    if (!user) {
+      await this.router.navigate(['/login']);
+      return;
+    }
+  }
 
   flatForm: FormGroup;
   loading = false;
@@ -53,17 +62,27 @@ export class NewFlatComponent {
       const flatId = await this.firebaseService.createFlat(flatData);
 
       if (flatId) {
-        alert('Imóvel adicionado com sucesso!');
+        alert('Flat added successfully!');
         this.flatForm.reset();
         this.router.navigate(['/my-flats']);
       } else {
-        alert('Erro ao adicionar imóvel. Verifique se você está logado.');
+        alert('Error adding flat. Please check if you are logged in.');
       }
-    } catch (error) {
-      console.error('Erro ao criar imóvel:', error);
-      alert('Erro ao adicionar imóvel. Tente novamente.');
+    } catch (error: any) {
+      console.error('Error creating flat:', error);
+      if (error?.message === 'User not authenticated') {
+        alert('You must be logged in to add a flat.');
+        await this.router.navigate(['/login']);
+      } else {
+        alert('Error adding flat. Please try again.');
+      }
     } finally {
       this.loading = false;
     }
+  }
+
+  async logout() {
+    await this.firebaseService.logout();
+    await this.router.navigate(['/login']);
   }
 }

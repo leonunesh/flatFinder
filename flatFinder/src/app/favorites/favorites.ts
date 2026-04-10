@@ -1,45 +1,71 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { FirebaseService } from '../services/firebase.service';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-favorites',
-  imports: [],
+  imports: [CommonModule, CurrencyPipe, RouterLink],
   templateUrl: './favorites.html',
   styleUrls: ['./favorites.css'],
 })
-export class Favorites {}
+export class Favorites implements OnInit {
+  favoriteFlats: any[] = [];
+  loading = false;
 
-export interface Flat {
-  id: number;
-  title: string;
-  address: string;
-  price: number;
-  rooms: number;
-  area: number;
-}
-export class FavouritesFlatsComponent {
-  favouriteFlats: Flat[] = [
-    {
-      id: 1,
-      title: 'Modern Loft',
-      address: '789 Sunset Blvd, Vancouver',
-      price: 2200,
-      rooms: 1,
-      area: 45,
-    },
-    {
-      id: 2,
-      title: '3BR Family Home',
-      address: '12 Pine Street, Vancouver',
-      price: 3200,
-      rooms: 3,
-      area: 95,
-    },
-  ];
+  constructor(
+    private firebaseService: FirebaseService,
+    private router: Router
+  ) { }
 
-  removeFromFavourites(flat: Flat): void {
-    const confirmed = confirm(`Remove "${flat.title}" from favourites?`);
+  async ngOnInit() {
+    const user = await this.firebaseService.getCurrentUser();
+    if (!user) {
+      await this.router.navigate(['/login']);
+      return;
+    }
+    await this.loadFavorites();
+  }
+
+  async loadFavorites() {
+    this.loading = true;
+    try {
+      const favorites = await this.firebaseService.getUserFavorites();
+      this.favoriteFlats = [];
+      
+      for (const fav of favorites) {
+        const flat = await this.firebaseService.getFlatById(fav.flatId);
+        if (flat) {
+          this.favoriteFlats.push(flat);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading favorites:', error);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  async removeFromFavorites(flatId: string): Promise<void> {
+    const confirmed = confirm('Remove this flat from favorites?');
     if (!confirmed) return;
 
-    this.favouriteFlats = this.favouriteFlats.filter(f => f.id !== flat.id);
+    try {
+      await this.firebaseService.removeFromFavorites(flatId);
+      this.favoriteFlats = this.favoriteFlats.filter(f => f.id !== flatId);
+      alert('Flat removed from favorites!');
+    } catch (error) {
+      console.error('Error removing from favorites:', error);
+      alert('Error removing flat from favorites');
+    }
+  }
+
+  viewFlat(flatId: string) {
+    this.router.navigate(['/flat-view', flatId]);
+  }
+
+  async logout() {
+    await this.firebaseService.logout();
+    await this.router.navigate(['/login']);
   }
 }

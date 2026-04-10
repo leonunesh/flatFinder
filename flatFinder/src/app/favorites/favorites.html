@@ -1,44 +1,50 @@
-<!DOCTYPE html>
+<div class="favorites-container">
+  <h1>My Favorite Flats</h1>
 
-<html>
+  <div class="navigation">
+    <a routerLink="/home">Home</a> |
+    <a routerLink="/my-flats">My Flats</a> |
+    <a routerLink="/new-flat">Add New Flat</a> |
+    <a routerLink="/messages">Messages</a> |
+    <a routerLink="/profile">Profile</a> |
+    <a routerLink="/users">Users</a>
+    <button class="logout-button" (click)="logout()">Logout</button>
+  </div>
 
-    <body>
-        <div class="favourite-flats">
-            <h2>My Favourite Flats</h2>
+  <div *ngIf="loading" class="loading">Loading favorites...</div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Title</th>
-                        <th>Address</th>
-                        <th>Price</th>
-                        <th>Rooms</th>
-                        <th>Area (m²)</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr *ngFor="let flat of favouriteFlats">
-                        <td>{{ flat.id }}</td>
-                        <td>{{ flat.title }}</td>
-                        <td>{{ flat.address }}</td>
-                        <td>{{ flat.price | currency }}</td>
-                        <td>{{ flat.rooms }}</td>
-                        <td>{{ flat.area }}</td>
-
-                        <td>
-                            <button type="button" (click)="removeFromFavourites(flat)">
-                                Remove
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-
-    </body>
-
-    </html>
+  <div *ngIf="!loading">
+    <table *ngIf="favoriteFlats.length > 0" class="favorites-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>Rent</th>
+          <th>Area (m²)</th>
+          <th>AC</th>
+          <th>Year Built</th>
+          <th>Available Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let flat of favoriteFlats">
+          <td>{{ flat.name }}</td>
+          <td>{{ flat.address }}</td>
+          <td>{{ flat.city }}</td>
+          <td>{{ flat.rent | currency:'USD':'symbol':'1.0-0' }}</td>
+          <td>{{ flat.areaSize }}</td>
+          <td>{{ flat.hasAC ? 'Yes' : 'No' }}</td>
+          <td>{{ flat.yearBuilt }}</td>
+          <td>{{ flat.dateAvailable | date:'shortDate' }}</td>
+          <td>
+            <button (click)="removeFromFavorites(flat.id)" class="remove-btn">Remove</button> |
+            <button (click)="viewFlat(flat.id)" class="view-btn">View</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="favoriteFlats.length === 0" class="no-favorites">No favorite flats yet.</p>
+  </div>
+</div>

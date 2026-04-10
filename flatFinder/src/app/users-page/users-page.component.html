@@ -1,13 +1,24 @@
 <div class="users-page-container">
-  <div *ngIf="loading">Loading...</div>
+  <h1>Users Management</h1>
 
-  <div *ngIf="!loading && !isAdmin">
+  <div class="navigation">
+    <a routerLink="/home">Home</a> |
+    <a routerLink="/my-flats">My Flats</a> |
+    <a routerLink="/new-flat">Add New Flat</a> |
+    <a routerLink="/favorites">Favorites</a> |
+    <a routerLink="/messages">Messages</a> |
+    <a routerLink="/profile">Profile</a>
+    <button class="logout-button" (click)="logout()">Logout</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <div *ngIf="!loading && !isAdmin" class="access-denied">
     <h2>Access Denied</h2>
     <p>You need admin privileges to view this page.</p>
   </div>
 
   <div *ngIf="!loading && isAdmin">
-    <h2>Users Management</h2>
     <table border="1">
       <thead>
         <tr>

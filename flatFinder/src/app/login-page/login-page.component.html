@@ -7,15 +7,15 @@
       <input type="email" formControlName="email" placeholder="Digite seu email">
     </label>
     <div class="field-error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-      Email válido é obrigatório
+      Valid email is required
     </div>
 
     <label>
-      Senha
-      <input type="password" formControlName="password" placeholder="Digite sua senha">
+      Password
+      <input type="password" formControlName="password" placeholder="Enter your password">
     </label>
     <div class="field-error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-      Senha é obrigatória
+      Password is required
     </div>
 
     <div class="error-message" *ngIf="errorMessage">
@@ -23,11 +23,11 @@
     </div>
 
     <button type="submit" [disabled]="loading">
-      {{ loading ? 'Entrando...' : 'Entrar' }}
+      {{ loading ? 'Logging in...' : 'Login' }}
     </button>
 
     <div class="links">
-      <p>Não tem conta? <a routerLink="/register">Cadastre-se aqui</a></p>
+      <p>Don't have an account? <a routerLink="/register">Register here</a></p>
     </div>
   </form>
 </div>

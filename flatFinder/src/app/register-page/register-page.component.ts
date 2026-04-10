@@ -54,46 +54,46 @@ export class RegisterPageComponent {
     const { email, password, firstName, lastName, birthDate } = this.registerForm.value;
     const user = { email, password, firstName, lastName, birthDate };
 
-    console.log('Tentando registrar usuário no Auth e no Firestore:', user);
+    console.log('Attempting to register user in Auth and Firestore:', user);
 
     try {
       const userCredential = await this.withTimeout(
         this.firebaseService.register(user),
         20000,
-        'O registro demorou muito. Verifique sua conexão e tente novamente.'
+        'Registration took too long. Check your connection and try again.'
       );
 
       if (!userCredential || !userCredential.user) {
-        throw new Error('Não foi possível criar o usuário.');
+        throw new Error('Unable to create user.');
       }
 
-      console.log('Cadastro concluído com sucesso:', userCredential.user.uid);
+      console.log('Registration completed successfully:', userCredential.user.uid);
       this.registerForm.reset();
       await this.router.navigate(['/login']);
 
     } catch (error: any) {
-      console.error('Erro no registro:', error);
-      console.error('Código do erro:', error?.code);
-      console.error('Mensagem do erro:', error?.message || error);
+      console.error('Error during registration:', error);
+      console.error('Error code:', error?.code);
+      console.error('Error message:', error?.message || error);
 
       // Handle common Firebase errors
       if (error?.code === 'auth/email-already-in-use') {
-        this.errorMessage = 'Este email já está em uso';
+        this.errorMessage = 'This email is already in use';
       } else if (error?.code === 'auth/weak-password') {
-        this.errorMessage = 'A senha deve ter pelo menos 6 caracteres';
+        this.errorMessage = 'Password must have at least 6 characters';
       } else if (error?.code === 'auth/invalid-email') {
-        this.errorMessage = 'Email inválido';
+        this.errorMessage = 'Invalid email';
       } else if (error?.code === 'auth/operation-not-allowed') {
-        this.errorMessage = 'O método de autenticação Email/Senha não está habilitado no Firebase.';
+        this.errorMessage = 'Email/Password authentication method is not enabled in Firebase.';
       } else if (error?.code === 'auth/configuration-not-found') {
-        this.errorMessage = 'Configuração do Firebase Auth não encontrada. Habilite Email/Senha em Authentication no console.';
+        this.errorMessage = 'Firebase Auth configuration not found. Enable Email/Password in Authentication in the console.';
       } else {
-        this.errorMessage = `Erro: ${error?.message || 'Erro desconhecido'}`;
+        this.errorMessage = `Error: ${error?.message || 'Unknown error'}`;
       }
 
     } finally {
       this.loading = false;
-      console.log('Loading definido como false');
+      console.log('Loading set to false');
     }
   }
 }
